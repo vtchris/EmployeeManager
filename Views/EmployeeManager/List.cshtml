@@ -1,6 +1,12 @@
 ﻿@model List<Employee>
     
     <h2>List of Employees</h2>
+    <h2>@TempData["Message"]</h2>
+
+    <a asp-controller="EmployeeManager" asp-action="Insert" class="btn btn-success">Insert</a>
+
+    <br />
+    <br />
 
     <table class="table">
         <tr class="thead-dark">
@@ -9,6 +15,7 @@
             <th>Last Name</th>
             <th>Title</th>
             <th>Birth Date</th>
+            <th colspan="2">Actions</th>
         </tr>
 
         @foreach (var item in Model)
@@ -19,6 +26,9 @@
                 <td>@item.LastName</td>
                 <td>@item.Title</td>
                 <td>@item.BirthDate</td>
+                <td><a asp-controller="EmployeeManager" asp-action="Update" asp-route-id="@item.EmployeeID" class="btn btn-warning">Update</a></td>
+                <!-- asp-action here refers to ActionName decorator on the controller -->
+                <td><a asp-controller="EmployeeManager" asp-action="Delete" asp-route-id="@item.EmployeeID" class="btn btn-danger">Delete</a></td>
             </tr>
         }
     </table>
