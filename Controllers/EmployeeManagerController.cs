@@ -61,6 +61,7 @@ namespace EmployeeManager.Controllers
             FillCountries();
             if (ModelState.IsValid)
             {
+                
                 db.Employees.Update(model);
                 db.SaveChanges();
                 ViewBag.Message = "Employee updated successfully";
