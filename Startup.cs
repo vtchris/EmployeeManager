@@ -6,6 +6,7 @@ using EmployeeManager.Models;
 using EmployeeManager.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +19,7 @@ namespace EmployeeManager
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -37,6 +39,12 @@ namespace EmployeeManager
             {
                 options.LoginPath = "/Security/SignIn";
                 options.AccessDeniedPath = "/Security/AccessDenied";
+            });
+
+            services.Configure<IdentityOptions>(options =>
+            {                
+                options.Password.RequireNonAlphanumeric = false;
+                
             });
         }
 
@@ -63,5 +71,7 @@ namespace EmployeeManager
                     pattern: "{controller=EmployeeManager}/{action=List}/{id?}");
             });
         }
+
+        
     }
 }
