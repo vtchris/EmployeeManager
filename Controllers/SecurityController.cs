@@ -4,11 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManager.Models;
 using EmployeeManager.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManager.Controllers
-{
+{    
     public class SecurityController : Controller
     {
         // these will be set in the constructor
@@ -68,10 +69,13 @@ namespace EmployeeManager.Controllers
             }            
             return View(register); 
         }     
+
+        [HttpGet]
         public IActionResult SignIn()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignIn(SignIn signIn)
@@ -91,6 +95,22 @@ namespace EmployeeManager.Controllers
                 
             }
             return View(signIn);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public IActionResult SignOut()
+        {
+            signInManger.SignOutAsync().Wait();
+            return RedirectToAction("SignIn", "Security");
+
+        }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
